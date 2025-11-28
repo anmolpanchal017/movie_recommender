@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendation System</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="title">🎬 Movie Recommendation System</div>
+        <div class="subtitle">Search by Title • Keywords • Genre</div>
+    </div>
+
+    <!-- CARD -->
+    <div class="card">
+
+        <!-- FORM START -->
+        <form id="recForm" method="POST">
+
+            <div class="form-row">
+
+                <!-- Search Type -->
+                <div>
+                    <label class="label">Choose Search Type</label>
+                    <select id="query_type" name="query_type">
+                        <option value="title">Search by Movie Title</option>
+                        <option value="keyword">Search by Keywords</option>
+                        <option value="genre">Search by Genre</option>
+                    </select>
+                </div>
+
+                <!-- Title Input -->
+                <div id="title_row">
+                    <label class="label">Movie Name</label>
+                    <input list="movie_list" id="movie_name" name="movie_name"
+                           placeholder="Start typing a movie name..." autocomplete="off">
+
+                    <datalist id="movie_list">
+                        {% for m in movies %}
+                        <option value="{{ m }}"></option>
+                        {% endfor %}
+                    </datalist>
+                </div>
+
+                <!-- Keyword Input -->
+                <div id="keyword_row" class="form-row-full" style="display:none;">
+                    <label class="label">Keywords</label>
+                    <input type="text" id="keyword" name="keyword"
+                           placeholder="e.g. space adventure, mafia drama">
+                </div>
+
+                <!-- Genre Input -->
+                <div id="genre_row" class="form-row-full" style="display:none;">
+                    <label class="label">Genre</label>
+                    <input type="text" id="genre" name="genre"
+                           placeholder="Action, Romance, Comedy, Horror">
+                </div>
+
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <div style="margin-top: 16px;">
+                <button class="btn-primary" type="submit" id="submitBtn">Get Recommendations</button>
+            </div>
+
+        </form>
+        <!-- FORM END -->
+
+        <!-- LOADER -->
+        <div id="loader" style="display:none;" class="center">
+            <div class="loader"></div>
+        </div>
+
+        <!-- RESULTS -->
+        {% if result %}
+        <div class="results" id="results">
+            {% for r in result %}
+            <div class="result-card">
+
+                <!-- POSTER -->
+                <img class="poster"
+                     src="{{ r.poster if r.poster else url_for('static', filename='placeholder.png') }}"
+                     alt="poster">
+
+                <!-- MOVIE DATA -->
+                <div class="movie-meta">
+
+                    <div class="movie-title">{{ r.title }}</div>
+
+                    <div class="movie-sub">
+                        {% if r.year %} Year: {{ r.year }} · {% endif %}
+                        {% if r.genre %} {{ r.genre }} · {% endif %}
+                        {% if r.rating %} IMDb: {{ r.rating }} {% endif %}
+                    </div>
+
+                    {% if r.plot %}
+                    <div class="movie-sub" style="margin-top:5px;">
+                        {{ r.plot }}
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% else %}
+        <div class="hint center">Try searching — Pick a title or type some keywords...</div>
+        {% endif %}
+
+    </div> <!-- card -->
+</div> <!-- container -->
+
+
+<script>
+    // SEARCH TYPE LOGIC
+    const qType = document.getElementById('query_type');
+    const titleRow = document.getElementById('title_row');
+    const keywordRow = document.getElementById('keyword_row');
+    const genreRow = document.getElementById('genre_row');
+
+    function updateFields() {
+        const v = qType.value;
+
+        if (v === "title") {
+            titleRow.style.display = "block";
+            keywordRow.style.display = "none";
+            genreRow.style.display = "none";
+        }
+        else if (v === "keyword") {
+            titleRow.style.display = "none";
+            keywordRow.style.display = "block";
+            genreRow.style.display = "none";
+        }
+        else if (v === "genre") {
+            titleRow.style.display = "none";
+            keywordRow.style.display = "none";
+            genreRow.style.display = "block";
+        }
+    }
+
+    qType.addEventListener("change", updateFields);
+    updateFields();
+
+    // LOADER ON SUBMIT
+    const form = document.getElementById("recForm");
+    const loader = document.getElementById("loader");
+    const submitBtn = document.getElementById("submitBtn");
+
+    form.addEventListener("submit", () => {
+        submitBtn.disabled = true;
+        loader.style.display = "block";
+    });
+</script>
+
+</body>
+</html>

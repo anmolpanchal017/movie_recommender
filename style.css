@@ -1,0 +1,172 @@
+/* static/style.css */
+/* Modern dark glassmorphism style + responsive layout */
+
+/* Reset & base */
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+body {
+  background: linear-gradient(180deg, #0f1724 0%, #0b1020 100%);
+  color: #e6eef8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  padding: 40px 16px;
+}
+
+/* Page container */
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 26px;
+}
+.title {
+  font-size: 30px;
+  letter-spacing: -0.5px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.subtitle {
+  font-size: 14px;
+  color: #9fb0c8;
+}
+
+/* Card (form) */
+.card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 14px;
+  padding: 20px;
+  backdrop-filter: blur(8px) saturate(120%);
+  box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+}
+
+/* Form rows */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.label {
+  font-size: 13px;
+  color: #9fb0c8;
+  margin-bottom: 6px;
+}
+
+/* Inputs */
+input[type="text"], select, datalist + input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(220, 219, 219, 0.02);
+  color: #f6f5f7;
+  outline: none;
+  transition: all .18s ease;
+  font-size: 14px;
+}
+input[type="text"]:focus, select:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(12, 34, 66, 0.45);
+  border-color: rgba(99, 102, 241, 0.9);
+}
+
+/* Button */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 14px;
+  background: linear-gradient(90deg, #6366f1, #06b6d4);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(6, 182, 212, 0.12);
+}
+
+/* Results area */
+.results {
+  margin-top: 20px;
+  display: grid;
+  gap: 12px;
+}
+.result-card {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.03);
+}
+.poster {
+  width: 80px;
+  height: 120px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: linear-gradient(180deg, #111827, #0b1220);
+  display: block;
+}
+.movie-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.movie-title {
+  font-weight: 700;
+  font-size: 15px;
+}
+.movie-sub {
+  font-size: 13px;
+  color: #9fb0c8;
+}
+
+/* small helper */
+.center {
+  text-align: center;
+}
+.hint {
+  font-size: 13px;
+  color: #9fb0c8;
+  margin-top: 6px;
+}
+
+/* loader */
+.loader {
+  width: 30px;
+  height: 30px;
+  border: 4px solid rgba(255,255,255,0.08);
+  border-top: 4px solid rgba(99,102,241,0.95);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 10px auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* responsiveness */
+@media (min-width: 720px) {
+  .form-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .form-row-full {
+    grid-column: 1 / -1;
+  }
+  .result-card {
+    grid-template-columns: 100px 1fr;
+  }
+}
